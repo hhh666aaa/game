@@ -21,3 +21,26 @@ void Board::Print() const {
 	}
 
 }
+
+
+void Board::Swap(int r1, int c1, int r2, int c2) {
+	
+	if(this->IsAdjacent(r1, c1, r2, c2)==1) {
+		auto temp = board[r1][c1];
+		board[r1][c1] = board[r2][c2];
+		board[r2][c2] = temp;
+		
+	}
+	else {
+		cout << "不相邻无法交换" << endl;
+	}
+	
+}
+
+bool Board::IsAdjacent(int r1, int c1, int r2, int c2) {
+	
+	int dr = abs(r1 - r2);
+	int dc = abs(c1 - c2);
+	
+	return dr + dc == 1;
+}

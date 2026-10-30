@@ -9,4 +9,7 @@ class Board {
 public:
     Board(int r, int c);
     void Print() const;
+    
+    void Swap(int r1, int c1, int r2, int c2);
+    bool IsAdjacent(int r1, int c1, int r2, int c2);
 };
