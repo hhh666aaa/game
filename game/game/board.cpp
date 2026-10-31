@@ -44,3 +44,72 @@ bool Board::IsAdjacent(int r1, int c1, int r2, int c2) {
 	
 	return dr + dc == 1;
 }
+
+vector<Eliminate> Board::FindEliminates() {
+    
+    vector<vector<bool>> isEliminate(rows, vector<bool>(cols, false));
+
+   
+    for (int i = 0; i < rows; i++) {
+        int sameCount = 1; 
+        for (int j = 1; j < cols; j++) {
+           
+            if (board[i][j] != 0 && board[i][j] == board[i][j - 1]) {
+                sameCount++;
+            }
+            else {
+               
+                if (sameCount >= 3) {
+                   
+                    for (int k = j - sameCount; k < j; k++) {
+                        isEliminate[i][k] = true;
+                    }
+                }
+                sameCount = 1; 
+            }
+        }
+        
+        if (sameCount >= 3) {
+            for (int k = cols - sameCount; k < cols; k++) {
+                isEliminate[i][k] = true;
+            }
+        }
+    }
+
+    
+    for (int j = 0; j < cols; j++) {
+        int sameCount = 1;
+        for (int i = 1; i < rows; i++) {
+            if (board[i][j] != 0 && board[i][j] == board[i - 1][j]) {
+                sameCount++;
+            }
+            else {
+                if (sameCount >= 3) {
+                    for (int k = i - sameCount; k < i; k++) {
+                        isEliminate[k][j] = true;
+                    }
+                }
+                sameCount = 1;
+            }
+        }
+       
+        if (sameCount >= 3) {
+            for (int k = rows - sameCount; k < rows; k++) {
+                isEliminate[k][j] = true;
+            }
+        }
+    }
+
+    
+    vector<Eliminate> result;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (isEliminate[i][j]) {
+                result.push_back({ i, j }); 
+            }
+        }
+    }
+    return result;
+
+}
+
